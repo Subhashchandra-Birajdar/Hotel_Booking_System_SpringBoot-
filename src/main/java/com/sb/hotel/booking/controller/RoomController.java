@@ -6,6 +6,7 @@ import com.sb.hotel.booking.Response.RoomResponse;
 import com.sb.hotel.booking.models.BookedRoom;
 import com.sb.hotel.booking.models.Room;
 import com.sb.hotel.booking.service.BookingService;
+import com.sb.hotel.booking.service.Impl.FileStorageServiceImpl;
 import com.sb.hotel.booking.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,6 +34,7 @@ public class RoomController {
 
     private final RoomService roomService;
     private final BookingService bookingService;
+    private final FileStorageServiceImpl fileStorageService;
 
     /**
      * Adds a new room to the system.

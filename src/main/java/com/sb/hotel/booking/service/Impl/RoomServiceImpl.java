@@ -18,16 +18,20 @@ import java.util.Optional;
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
+    private final FileStorageServiceImpl fileStorageService;
 
     @Override
     public Room addNewRoom(MultipartFile file, String roomType, BigDecimal roomPrice) throws IOException {
+        String fileName = fileStorageService.storeFile(file);
+        
         Room room = new Room();
         room.setRoomType(roomType);
         room.setRoomPrice(roomPrice);
 
-        if (!file.isEmpty()) {
-            byte[] photoBytes = file.getBytes();
-            room.setPhoto(photoBytes); // Use byte[] instead of Blob
+        if (!fileName.isEmpty()) {
+            byte[] photoBytes = fileName.getBytes();
+              room.setPhoto(photoBytes);
+            //room.setPhoto(photoBytes); // Use byte[] instead of Blob
         }
 
         return roomRepository.save(room);
