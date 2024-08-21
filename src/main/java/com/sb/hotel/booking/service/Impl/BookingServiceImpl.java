@@ -3,6 +3,7 @@ package com.sb.hotel.booking.service.Impl;
 import com.sb.hotel.booking.models.BookedRoom;
 import com.sb.hotel.booking.models.Room;
 import com.sb.hotel.booking.repository.BookingRepository;
+import com.sb.hotel.booking.service.BookingService;
 import com.sb.hotel.booking.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BookingServiceImpl {
+public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
 
@@ -47,7 +48,7 @@ public class BookingServiceImpl {
         return bookingRepository.findByRoomId(roomId);
     }
 
-    private boolean roomIsAvailable(BookedRoom bookingRequest, List<BookedRoom> existingBookings) {
+    public boolean roomIsAvailable(BookedRoom bookingRequest, List<BookedRoom> existingBookings) {
         return existingBookings.stream()
                 .noneMatch(existingBooking -> bookingRequest.getCheckInDate().equals(existingBooking.getCheckInDate())
                         || bookingRequest.getCheckOutDate().isBefore(existingBooking.getCheckOutDate())
