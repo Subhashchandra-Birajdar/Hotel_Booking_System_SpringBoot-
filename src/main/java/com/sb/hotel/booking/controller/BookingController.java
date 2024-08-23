@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -30,7 +31,8 @@ public class BookingController {
     public ResponseEntity<?> saveBooking(@RequestParam Long roomId, @Valid @RequestBody BookedRoom bookingRequest) {
         try {
             String confirmationCode = bookingService.saveBooking(roomId, bookingRequest);
-            return ResponseEntity.ok(new BookingResponseMessage("Room booked successfully", confirmationCode));
+            //return ResponseEntity.ok(new BookingResponseMessage("Room booked successfully", confirmationCode));
+            return new ResponseEntity<>(confirmationCode,HttpStatus.CREATED);
         } catch (RuntimeException e) {
             // Handle specific exceptions if needed
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getMessage()));
@@ -56,6 +58,10 @@ public class BookingController {
         } else {
             return ResponseEntity.notFound().build();
         }
+        /*
+        Delete : http://localhost:8080/bookings/cancel/1
+        Response : Booking canceled successfully.
+         */
     }
 
     /**
@@ -94,3 +100,31 @@ public class BookingController {
         }
     }
 }
+
+/*
+POST : http://localhost:8080/bookings/room/booking?roomId=1
+Request :
+{
+    "checkInDate": "2024-09-10",
+    "checkOutDate": "2024-09-15",
+    "guestName": "John Doe",
+    "guestEmail": "john.doe@example.com",
+    "numOfAdults": 2,
+    "numOfChildren": 1,
+    "totalNumOfGuests": 3,
+    "bookingConfirmationCode": "CONF123",
+    "room": {
+        "id": 1,
+        "roomType": "Deluxe",
+        "roomPrice": 200.00,
+        "isBooked": false,
+        "photoBase64": "base64encodedphotodata",
+        "bookings": []
+    }
+}
+Response :
+    {
+    "message": "Room booked successfully",
+    "confirmationCode": "4948918860"
+    }
+ */
