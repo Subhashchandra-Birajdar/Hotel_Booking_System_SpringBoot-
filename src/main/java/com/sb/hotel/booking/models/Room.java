@@ -1,8 +1,9 @@
 package com.sb.hotel.booking.models;
 
 import java.math.BigDecimal;
-import java.sql.Blob;
+//import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -69,6 +70,10 @@ public class Room {
 
         String bookingCode = RandomStringUtils.randomNumeric(10);
         booking.setBookingConfirmationCode(bookingCode);
+    }
+
+    public List<BookedRoom> getBookings() {
+        return Collections.unmodifiableList(bookings);
     }
 
     public void removeBooking(BookedRoom booking) {

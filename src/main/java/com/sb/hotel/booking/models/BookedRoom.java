@@ -1,22 +1,21 @@
 package com.sb.hotel.booking.models;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.antlr.v4.runtime.misc.NotNull;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "room")
 @EqualsAndHashCode(of = "bookingId")
 public class BookedRoom {
 
@@ -24,49 +23,45 @@ public class BookedRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
 
-    @NotNull()
-    @Column(name = "check_in")
+    @NotNull(message = "Check-in date cannot be null")
+    @Column(name = "check_in", nullable = false)
     private LocalDate checkInDate;
 
-    @NotNull()
-    @Column(name = "check_out")
+    @NotNull(message = "Check-out date cannot be null")
+    @Column(name = "check_out", nullable = false)
     private LocalDate checkOutDate;
 
-    @NotEmpty(message = "Guest full name is required")
-    @Column(name = "guest_full_name")
+    @NotNull(message = "Guest full name cannot be null")
+    @Size(min = 1, max = 100, message = "Guest full name must be between 1 and 100 characters")
+    @Column(name = "guest_fullName", nullable = false)
     private String guestFullName;
 
-    @NotEmpty(message = "Guest email is required")
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$",
-            message = "Invalid email format")
-    @Column(name = "guest_email")
+    @NotNull(message = "Guest email cannot be null")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Invalid email format")
+    @Column(name = "guest_email", nullable = false)
     private String guestEmail;
 
-    @Positive(message = "Number of adults must be positive")
-    @Column(name = "adults")
+    @NotNull(message = "Number of adults cannot be null")
+    @Min(value = 1, message = "There must be at least one adult")
+    @Column(name = "adults", nullable = false)
     private int numOfAdults;
 
-    @Positive(message = "Number of children must be positive")
+    @Min(value = 0, message = "Number of children cannot be negative")
     @Column(name = "children")
     private int numOfChildren;
 
-    @Positive(message = "Total number of guests must be positive")
-    @Column(name = "total_guest")
+    @NotNull(message = "Total number of guests cannot be null")
+    @Min(value = 1, message = "There must be at least one guest")
+    @Column(name = "total_guest", nullable = false)
     private int totalNumOfGuest;
 
-    @NotEmpty(message = "Booking confirmation code is required")
-    @Column(name = "confirmation_code")
+    @NotNull(message = "Booking confirmation code cannot be null")
+    @Size(min = 6, max = 20, message = "Booking confirmation code must be between 6 and 20 characters")
+    @Column(name = "confirmation_Code", nullable = false, unique = true)
     private String bookingConfirmationCode;
 
+    @NotNull(message = "Room cannot be null")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "room_id", nullable = false)
     private Room room;
-
-    @PrePersist
-    @PreUpdate
-    private void validateDates() {
-        if (checkInDate.isAfter(checkOutDate)) {
-            throw new IllegalArgumentException("Check-out date must be after check-in date");
-        }
-    }
 }

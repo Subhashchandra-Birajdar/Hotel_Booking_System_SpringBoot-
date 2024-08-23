@@ -1,6 +1,8 @@
 package com.sb.hotel.booking.service;
 
 import com.sb.hotel.booking.models.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,23 +21,28 @@ public interface RoomService {
      * @return the added Room object
      * @throws IOException if there is an error processing the photo
      */
-    Room addNewRoom(MultipartFile file, String roomType, BigDecimal roomPrice) throws IOException;
+    Room addNewRoom(MultipartFile file,String hotelName, String roomType, BigDecimal roomPrice) throws IOException;
 
     /**
-     * Retrieves all rooms.
-     * @return a list of all rooms
+     * Retrieves all rooms with pagination and filtering options.
+     * @param pageable pagination information
+     * @return a paginated list of rooms
      */
-    List<Room> getAllRooms();
+    Page<Room> getAllRooms(Pageable pageable);
 
     /**
      * Retrieves available rooms based on the specified date range and room type.
      * @param checkInDate the check-in date
      * @param checkOutDate the check-out date
      * @param roomType the type of the room
-     * @return a list of available rooms
+     * @param pageable pagination information
+     * @return a paginated list of available rooms
      */
-    List<Room> getAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType);
+    Page<Room> getAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, Pageable pageable);
 
+    List<Room> getAllRooms();
+
+    List<Room> getAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType);
     /**
      * Retrieves a room by its ID.
      * @param roomId the ID of the room

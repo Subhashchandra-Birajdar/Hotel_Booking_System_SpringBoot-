@@ -41,4 +41,7 @@ public interface BookingRepository extends JpaRepository<BookedRoom, Long> {
      * @return a page of booked rooms
      */
     Page<BookedRoom> findByCheckInDateBetween(LocalDate startDate, LocalDate endDate, Pageable pageable);
+
+
+
 }

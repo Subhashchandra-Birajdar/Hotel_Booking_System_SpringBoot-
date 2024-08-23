@@ -1,32 +1,34 @@
 package com.sb.hotel.booking.Response;
 
-import lombok.Data;
+import com.sb.hotel.booking.response.BookingResponse;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class RoomResponse {
+
     private Long id;
     private String roomType;
     private BigDecimal roomPrice;
     private boolean isBooked;
-    private String photo; // Base64-encoded photo
-    private String hotelName;
-    private String details;
-    private List<BookingResponse> bookings;
+    private String photoBase64;
+    private List<com.sb.hotel.booking.response.BookingResponse> bookings; // List of booking responses
 
-    public RoomResponse(Long id, String roomType, BigDecimal roomPrice, boolean isBooked, String photo,
-                        List<BookingResponse> bookings) {
+    public RoomResponse(Long id, String roomType, BigDecimal roomPrice, boolean isBooked, List<BookingResponse> bookings) {
         this.id = id;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
         this.isBooked = isBooked;
-        this.photo = photo;
         this.bookings = bookings;
     }
 
-
+    // Getters and setters
 }
