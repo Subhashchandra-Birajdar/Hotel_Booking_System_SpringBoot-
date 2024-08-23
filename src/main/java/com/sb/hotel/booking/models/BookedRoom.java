@@ -23,35 +23,35 @@ public class BookedRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
 
-    @NotNull(message = "Check-in date cannot be null")
-    @Column(name = "check_in", nullable = false)
+   // @NotNull(message = "Check-in date cannot be null")
+   // @Column(name = "check_in", nullable = false)
     private LocalDate checkInDate;
 
-    @NotNull(message = "Check-out date cannot be null")
-    @Column(name = "check_out", nullable = false)
+   // @NotNull(message = "Check-out date cannot be null")
+   // @Column(name = "check_out", nullable = false)
     private LocalDate checkOutDate;
 
-    @NotNull(message = "Guest full name cannot be null")
-    @Size(min = 1, max = 100, message = "Guest full name must be between 1 and 100 characters")
+   // @NotNull(message = "Guest full name cannot be null")
+   // @Size(min = 1, max = 100, message = "Guest full name must be between 1 and 100 characters")
     @Column(name = "guest_fullName", nullable = false)
     private String guestFullName;
 
-    @NotNull(message = "Guest email cannot be null")
-    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Invalid email format")
+   // @NotNull(message = "Guest email cannot be null")
+   // @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Invalid email format")
     @Column(name = "guest_email", nullable = false)
     private String guestEmail;
 
-    @NotNull(message = "Number of adults cannot be null")
-    @Min(value = 1, message = "There must be at least one adult")
+    //@NotNull(message = "Number of adults cannot be null")
+    //@Min(value = 1, message = "There must be at least one adult")
     @Column(name = "adults", nullable = false)
     private int numOfAdults;
 
-    @Min(value = 0, message = "Number of children cannot be negative")
+    //@Min(value = 0, message = "Number of children cannot be negative")
     @Column(name = "children")
     private int numOfChildren;
 
-    @NotNull(message = "Total number of guests cannot be null")
-    @Min(value = 1, message = "There must be at least one guest")
+   // @NotNull(message = "Total number of guests cannot be null")
+   // @Min(value = 1, message = "There must be at least one guest")
     @Column(name = "total_guest", nullable = false)
     private int totalNumOfGuest;
 

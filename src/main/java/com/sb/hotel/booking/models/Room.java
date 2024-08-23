@@ -34,11 +34,11 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Room type is required")
+   // @NotEmpty(message = "Room type is required")
     private String roomType;
 
-    @NotNull(message = "Room price is required")
-    @Positive(message = "Room price must be positive")
+   // @NotNull(message = "Room price is required")
+   // @Positive(message = "Room price must be positive")
     private BigDecimal roomPrice;
 
     @NotEmpty(message = "Hotel name is required")
